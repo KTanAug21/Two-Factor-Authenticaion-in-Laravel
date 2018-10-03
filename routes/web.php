@@ -18,19 +18,17 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('auth','two_factor');
-Route::get('/otp_form', 'OTPController@showForm');
+Route::get('/otp_form', 'OTPController@showForm')->middleware('auth');
+Route::get('/otp_resend',[
+    'as' => 'otp_resend',
+    'uses' => 'OTPController@reSend'
+]
+)->middleware('auth');
 
 Route::post('/otp_submit', [
     'as' => 'otp_submit',
     'uses' => 'OTPController@validateOTP'
 ]);
-
-
-Route::get('/otp_resend',[
-    'as' => 'otp_resend',
-    'uses' => 'OTPController@reSend'
-]
-);
 
 
 
