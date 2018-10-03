@@ -29,7 +29,9 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
                                 </button>
-
+                                <a class="btn btn-link" href="{{ route('otp_resend') }}">
+                                    {{ __('Lost Your Pin?') }}
+                                </a>
                                 
                             </div>
                         </div>
