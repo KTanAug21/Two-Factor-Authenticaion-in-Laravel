@@ -12,6 +12,7 @@ class OTPController extends Controller
 {
     public function validateOTP(Request $request)
     {
+        //$this->checkExpired(Auth::user()->otp_expiration);
         // Check if otp field is set
         $request->validate([
             'otp' => 'required',
@@ -19,7 +20,7 @@ class OTPController extends Controller
        
         // Session is otp-verified when entry matches with stored data
         if($request->input('otp') == Auth::user()->otp){  
-            // Change otp_expiration to null, signalling verified           
+            // Change otp_expiration to the present with added minutes from session life, signalling verified otp           
             $user = Auth::user();
             $user->otp_expiration = \Carbon\Carbon::now()->addMinutes(config('session.lifetime'));
             $user->save();  
@@ -31,6 +32,7 @@ class OTPController extends Controller
             return redirect('/otp_form')->with('error_otp', 'Incorrect code.');
         }
     }
+
 
     public function showForm()
     {   
